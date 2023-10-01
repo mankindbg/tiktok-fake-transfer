@@ -1,0 +1,42 @@
+/* Style for the header */
+header {
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+/* Style for the logo */
+.logo img {
+    width: 50px;
+    height: auto;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+/* Style for the title */
+.title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Style for the navigation menu */
+.navigation-menu {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+}
+
+.navigation-menu li {
+    margin: 0 10px;
+}
+
+.navigation-menu a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.navigation-menu a:hover {
+    text-decoration: underline;
+}
