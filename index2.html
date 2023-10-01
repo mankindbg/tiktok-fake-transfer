@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="./CSS/navigation.scss" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Point Transfer</title>
+    <style>
+        /* Add your CSS styles for mobile-friendliness here */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background-color: #0053a0;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            font-weight: bold;
+            color: #fff;
+            font-size: 36px;
+            margin: 0;
+        }
+        nav {
+            background-color: #0053a0;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            margin-top: 5px;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: larger;
+            font-weight: bold;
+            font-family: Futura,Trebuchet MS,Arial,sans-serif;
+        }
+
+        .transfer {
+        background-color: white;
+        color: #0053a0;
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+        .container {
+            max-width: 400px;
+            background-color: #fff;
+            margin: 0 auto;
+            padding: 2px;
+            border: 1px solid #ddd; /* Border style */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+            padding: 20px; /* Padding to create space inside the container */
+            margin-top: 20px;
+            border-radius:10px;
+            font-family: Futura,Trebuchet MS,Arial,sans-serif; 
+        }
+
+        #available-points {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-family: Futura,Trebuchet MS,Arial,sans-serif; 
+        }
+
+        #transfer-button {
+            background-color: #0053a0; /* Change button color to #0053a0 */
+            color: #fff; /* Change text color to white */
+            padding: 10px 20px; /* Increase padding for a bigger button */
+            font-size: 16px; /* Increase font size */
+            margin-top: 10px;
+            border-radius: 8px;;
+        }
+
+        #result-message {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        #loading {
+            display: none;
+            margin-top: 5px;
+        }
+
+        /* Style for the logo image */
+        .logo img {
+            width: 50px; /* Adjust the width as needed */
+            height: auto; /* Maintain aspect ratio */
+            vertical-align: middle;
+            margin-right: 10px; /* Add some spacing between the logo and title */
+        }
+
+        /* Style for the title */
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        footer {
+            background-color: #0053a0;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="Logo_baru_BRImo.svg.png" alt="Logo">
+        </div>
+        <nav>
+            <a href="#">Beranda</a>
+            <a class="transfer" href="#">Transfer</a>
+            <a href="#">Terima</a>
+            <a href="#">Top-up</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Saldo tersedia</h1>
+        <div id="available-points" style="color: #0053a0; font-size: 50px;">Rp.<span style="color: #0053a0; font-size: 60px;" id="points">18,152,000</span></div>
+        <h2></h2>
+    </div>
+    <div class="container">
+    <form id="point-transfer-form" >
+        <label for="username" style="font-size: larger; font-weight: bold;">Kirim ke:</label>
+        <input type="text" id="username" name="username" required style="font-size: 16px; padding: 5px; width: 80%;border-radius: 9px;">
+        <br>
+        <br>
+        <label for="amount" style="font-size: larger; font-weight: bold;">Masukkan jumlah:</label>
+        <input type="number" id="amount" name="amount" required style="font-size: 16px; padding: 5px; width: 80%; border-radius: 9px;">
+        <br>
+        <button type="submit" id="transfer-button">Kirim</button>
+    </form>
+    <div id="loading">
+        <img src="Rolling-1s-200px.gif" style="max-width: 60px; max-height: 60px;" alt="Loading...">
+    </div>
+    <br>
+    <div id="result-container" style="display: none;">
+        <img src="icons8-tick.gif" style="height: 60px; width: 60px;" alt="Check Mark">
+        <div id="result-message" style="font-size: 18px;"></div>
+    </div>
+    </div>
+    <br>
+    <img src="Artikel-Faspay-BRI-VA-06-1.png" style="max-width:430px;"></img>
+    <footer>
+        &copy; All rights reserved.
+    </footer>
+    <script>
+        function resetFormFields() {
+            document.getElementById('point-transfer-form').reset();
+        }
+    
+        document.getElementById('point-transfer-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+    
+            // Simulate a 3-second loading animation
+            document.getElementById('loading').style.display = 'block';
+            setTimeout(function () {
+                document.getElementById('loading').style.display = 'none';
+    
+                // Process the transfer
+                const username = document.getElementById('username').value;
+                const amount = parseInt(document.getElementById('amount').value);
+                const availablePoints = parseInt(document.getElementById('points').textContent.replace(/,/g, ''));
+    
+                if (amount <= 0 || isNaN(amount)) {
+                    document.getElementById('result-message').textContent = 'Invalid amount.';
+                } else if (amount > availablePoints) {
+                    document.getElementById('result-message').textContent = 'Insufficient points.';
+                } else {
+                    // Format the amount with comma formatting
+                    const formattedAmount = amount.toLocaleString();
+    
+                    // Update available points with comma formatting
+                    const updatedPoints = (availablePoints - amount).toLocaleString();
+                    document.getElementById('points').textContent = updatedPoints;
+    
+                    // Show success message with formatted amount
+                    document.getElementById('result-message').textContent = `Transfer sebesar Rp.${formattedAmount} telah sukses dikirim ke @${username}. Saldo akan diterima dalam 24 jam`;
+                }
+    
+                // Display the result container and message
+                document.getElementById('result-container').style.display = 'block';
+    
+                // Reset the form fields
+                resetFormFields();
+            }, 3000);
+        });
+    </script>
+    
+    
+</body>
+</html>
